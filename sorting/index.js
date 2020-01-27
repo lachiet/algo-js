@@ -62,4 +62,47 @@ function merge(left, right) {
   return [...results, ...left, ...right];
 }
 
-module.exports = { bubbleSort, selectionSort, mergeSort, merge };
+/**
+ * Quicksort: T = O(n log n), S = O(log n)
+ */
+function quickSort(arr, left = 0, right = null) {
+  if (right === null) right = arr.length - 1;
+
+  if (arr.length > 1) {
+    let index = quickSortPartition(arr, left, right);
+    if (left < index - 1) {
+      quickSort(arr, left, index - 1);
+    }
+    if (index < right) {
+      quickSort(arr, index, right);
+    }
+  }
+  return arr;
+}
+
+function quickSortPartition(arr, left, right) {
+  const pivotIndex = Math.floor(Math.random() * (right - left + 1)) + left; // random pivot index
+  const pivot = arr[pivotIndex];
+  let i = left;
+  let j = right;
+
+  // Swap element on either side of pivot point
+  while (i <= j) {
+    while (arr[i] < pivot) {
+      i++;
+    }
+    while (arr[j] > pivot) {
+      j--;
+    }
+    if (i <= j) {
+      let temp = arr[i]; // swap
+      arr[i] = arr[j];
+      arr[j] = temp;
+      i++;
+      j--;
+    }
+  }
+  return i;
+}
+
+module.exports = { bubbleSort, selectionSort, mergeSort, merge, quickSort };
